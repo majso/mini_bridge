@@ -32,7 +32,10 @@ pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(mini_bridge mini_bridge.c )
+add_executable(mini_bridge 
+cc1101.c
+radio.c
+main.c )
 
 pico_set_program_name(mini_bridge "mini_bridge")
 pico_set_program_version(mini_bridge "0.1")
