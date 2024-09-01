@@ -73,12 +73,31 @@ void radio_send_data(const SensorData *data) {
 
 // Receive sensor data using the radio module
 void radio_receive_data(SensorData *data) {
-    uint8_t buffer[64];
-    uint8_t length = sizeof(buffer);
+    uint8_t buffer[sizeof(SensorData)] = {0};
     
-    // Receive data from CC1101
-    cc1101_receive_data(buffer, length);
+    // Switch to RX mode and wait for a packet
+    cc1101_write_reg(CC1101_SRX, 0);
     
-    // Convert received bytes to SensorData
-    bytes_to_sensor_data(buffer, length, data);
+    // Wait until a packet is received (GDO0 goes high)
+    while (!gpio_get(CC1101_GDO0_PIN));
+    
+    // Read the data from the RX FIFO
+    for (int i = 0; i < sizeof(SensorData); i++) {
+        buffer[i] = cc1101_read_reg(0x3F); // Reading from RX FIFO
+    }
+
+    // Convert the received buffer into a SensorData struct
+    memcpy(data, buffer, sizeof(SensorData));
+
+    // Print the received data
+    printf("Temperature: %.2f°C\n", data->temperature);
+    printf("Pressure: %.2f hPa\n", data->pressure);
+    printf("Exterior Temperature: %.2f°C\n", data->exterior_temperature);
+    printf("Exterior Humidity: %.2f%%\n", data->exterior_humidity);
+    printf("Battery Voltage: %.2fV\n", data->battery_voltage);
+    printf("Battery Current: %.2fA\n", data->battery_current);
+    printf("Battery Power: %.2fW\n", data->battery_power);
+    printf("Solar Voltage: %.2fV\n", data->solar_voltage);
+    printf("Solar Current: %.2fA\n", data->solar_current);
+    printf("Solar Power: %.2fW\n", data->solar_power);
 }
