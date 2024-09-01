@@ -69,10 +69,17 @@
 #define CC1101_RCCTRL1       0x27  // RC oscillator configuration
 #define CC1101_RCCTRL0       0x28  // RC oscillator configuration
 
+#define CC1101_TXFIFO_SINGLE_BYTE 0x3F  // Single byte access to TX FIFO
+#define CC1101_TXFIFO_BURST 0x7F       // Burst access to TX FIFO
+#define CC1101_RXFIFO_SINGLE_BYTE 0xBF // Single byte access to RX FIFO
+#define CC1101_RXFIFO_BURST 0xFF       // Burst access to RX FIFO
+
 // Prototypes
 void cc1101_init(void);
 void cc1101_write_reg(uint8_t addr, uint8_t value);
+void cc1101_write_burst(uint8_t addr, uint8_t* data, uint8_t length);
 uint8_t cc1101_read_reg(uint8_t addr);
+void cc1101_read_burst(uint8_t addr, uint8_t* data, uint8_t length);
 void cc1101_send_data(uint8_t* data, uint8_t length);
 void cc1101_receive_data(uint8_t* buffer, uint8_t length);
 void cc1101_strobe(uint8_t strobe);
