@@ -41,8 +41,8 @@ pico_set_program_name(mini_bridge "mini_bridge")
 pico_set_program_version(mini_bridge "0.1")
 
 # Modify the below lines to enable/disable output over UART/USB
-pico_enable_stdio_uart(mini_bridge 0)
-pico_enable_stdio_usb(mini_bridge 0)
+pico_enable_stdio_uart(mini_bridge 1)
+pico_enable_stdio_usb(mini_bridge 1)
 
 # Add the standard library to the build
 target_link_libraries(mini_bridge

@@ -1,12 +1,15 @@
 #include "radio.h"
 #include "pico/stdlib.h"
+#include <stdio.h>
 
 int main() {
     stdio_init_all();
     
-    // Initialize the radio module
+    printf("Radio starting..\n");
     radio_init();
-    
+
+    printf("Hello, IoT world from RP2040!\n");
+
     SensorData received_data;
 
     while (1) {
