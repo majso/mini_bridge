@@ -76,7 +76,7 @@ static void sensor_data_to_bytes(const SensorData *data, uint8_t *buffer, uint8_
 // Helper function to convert byte array to SensorData
 static void bytes_to_sensor_data(const uint8_t *buffer, uint8_t length, SensorData *data) {
     if (length >= sizeof(SensorData)) {
-        uint8_t index = 1;
+        uint8_t index = 0;
         
         memcpy(&data->temperature, &buffer[index], sizeof(float)); index += sizeof(float);
         memcpy(&data->pressure, &buffer[index], sizeof(float)); index += sizeof(float);

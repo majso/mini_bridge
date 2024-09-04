@@ -11,6 +11,8 @@
 #define CC1101_MOSI_PIN   7   //Green SPI Master Out Slave In (MOSI) pin (GPIO 7)
 #define CC1101_MISO_PIN   4   //Purple SPI Master In Slave Out (MISO) pin (GPIO 4)
 
+#define CC1101_MAX_PAYLOAD_LENGTH 40   // Maximum length of payload
+
 // CC1101 Command Strobes
 #define CC1101_SRES          0x30  // Reset chip
 #define CC1101_SFSTXON       0x31  // Enable and calibrate frequency synthesizer (if MCSM0.FS_AUTOCAL=1). If in RX/TX: Go to a wait state where only the synthesizer is running (for quick RX / TX turnaround).
