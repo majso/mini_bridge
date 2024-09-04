@@ -58,18 +58,29 @@ uint8_t  cc1101_read_burst(uint8_t addr, uint8_t* buffer, uint8_t length) {
 
 // Function to send data using the TX FIFO
 void cc1101_send_data(uint8_t* data, uint8_t length) {
+    // Ensure that length does not exceed TX FIFO buffer size
+    if (length > CC1101_MAX_PAYLOAD_LENGTH) {
+        printf("Error: Data length exceeds TX FIFO buffer size.\n");
+        return;
+    }
+
     // Set the CC1101 to IDLE mode
     cc1101_strobe(CC1101_SIDLE);
-    // Flush TX FIFO before sending data
-    cc1101_strobe(CC1101_SFTX);  // SFTX strobe
-    // Write data to FIFO
-    cc1101_write_burst(CC1101_TXFIFO_BURST, data, length);
-     // Set the CC1101 to TX mode to send the data
-    cc1101_strobe(CC1101_STX);
-    // Flush TX FIFO after sending data
-    cc1101_strobe(CC1101_SFTX);  // SFTX strobe
-}
 
+    // Flush TX FIFO to clear old data
+    cc1101_strobe(CC1101_SFTX);
+
+    // Write data to TX FIFO
+    cc1101_write_burst(CC1101_TXFIFO_BURST, data, length);
+
+    // Start the transmission
+    cc1101_strobe(CC1101_STX);
+
+    // Ensure the radio is back in RX mode after transmission
+    cc1101_strobe(CC1101_SRX);
+
+    printf("Data sent successfully.\n");
+}
 // Function to receive data using the RX FIFO
 void cc1101_receive_data(uint8_t* buffer, uint8_t length) {
     uint8_t rxBytes = 0, rxBytesVerify = 0, marcState = 0;
