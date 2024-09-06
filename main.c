@@ -17,7 +17,7 @@ int main() {
         radio_receive_data(&received_data);
 
         // Delay to avoid flooding the serial output
-        sleep_ms(1000);
+        sleep_ms(10000);
     }
 
     return 0;
